@@ -1,6 +1,18 @@
+import tkinter as tk
+window = tk.Tk()
 def my_input () :
-    name = input("enter name :   ")
-    number = int(input("enter number of name :   "))
+    name_lable=tk.Label(master=window,name_lable="enter your name :")
+    name = tk.Entry(master= window)
+
+    # input("enter name :   ")
+    number_lable = tk.Label(master=window,number_lable="enter number :")
+    number = tk.Entry(master=window)
+    # int(input("enter number of name :   "))
+    name_lable.pack()
+    name.pack()
+    number_lable.pack()
+    number.pack()
+    
     return name ,number
 
 def my_dic (file_name) :
@@ -18,8 +30,12 @@ def my_insert(file_name,name,number) :
         append.write(f'\n{name} {number}')
 while True :
     mydic = my_dic('txt&word\grate.txt')
+    
     for i in mydic.items() :
-        print(f"in coeiz {i[0]}\'s number is  : {i[1]}")
+        # print(f"in coeiz {i[0]}\'s number is  : {i[1]}")
+        text = tk.Label(text=f"in coeiz {i[0]}\'s number is  : {i[1]}")
+        text.pack()
+        
 
     qustion = input("do you like append a new item ? (y or n) :  ")
     if qustion == 'y' :
@@ -34,4 +50,4 @@ while True :
     elif qustion == 'n' :
         print('thanks for select we !!!')
         break
-exit()
+window.mainloop()
