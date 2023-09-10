@@ -1,112 +1,116 @@
 import tkinter as tk
 from tkinter import ttk
-
+import os
 window = tk.Tk()
 window.title('calc1')
-lbl_persenteg = ttk.Label(master= window ,
-                         text= 'persantege',
-                         )
-btn_daytools =  ttk.Button(master=window,
-                          text='DAYTOOLS',
-                          )
-btn_timer = ttk.Button(master=window,
-                      text='TIMER',
-                      )
-ent_show = ttk.Entry(master=window,
-                    width=49)
-btn_ac = ttk.Button(master=window,
-                   text='AC' ,
-                   )
-btn_plus_mines = ttk.Button(master=window,
-                           text='+/-',
-                           )
-btn_persentege = ttk.Button(master=window,
-                           text='%',
-                           )
-btn_div =ttk.Button(master=window,
-                   text='/',
-                   )
-btn_multi =ttk.Button(master=window,
-                   text='*',
-                   )
-btn_plus =ttk.Button(master=window,
-                   text='+',
-                   )
-btn_min =ttk.Button(master=window,
-                   text='-',
-                   )
-btn_equ =ttk.Button(master=window,
-                   text='=',
-                   )
-btn_auditor =ttk.Button(master=window,
-                   text=',',
-                   )
-btn_number_0 = ttk.Button(master=window,
-                         text='0',
-                         width=23,
-                         )
-btn_number_1 = ttk.Button(master=window,
-                         text='1',
-                         )
-btn_number_2 = ttk.Button(master=window,
-                         text='2',
-                         )
-btn_number_3 = ttk.Button(master=window,
-                         text='3',
-                         )
-btn_number_4 = ttk.Button(master=window,
-                         text='4',
-                         )
-btn_number_5 = ttk.Button(master=window,
-                         text='5',
-                         )
-btn_number_6 = ttk.Button(master=window,
-                         text='6',
-                         )
-btn_number_7 = ttk.Button(master=window,
-                         text='7',
-                         )
-btn_number_8 = ttk.Button(master=window,
-                         text='8',
-                         )
-btn_number_9 = ttk.Button(master=window,
-                         text='9',
-                         )
+os.system('cls')
+num = {'num1' : '','num2' : '','op' : ''}
+key_list_dic = [{'text' : 7,'command' : lambda : print_result(7)},
+                {'text' : 8,'command' : lambda : print_result(8)},
+                {'text' : 9,'command' : lambda : print_result(9)},
+                {'text' : '*','command' : lambda : print_result('*')},
+                {'text' : 4,'command' : lambda : print_result(4)},
+                {'text' : 5,'command' : lambda : print_result(5)},
+                {'text' : 6,'command' : lambda : print_result(6)},
+                {'text' : '/','command' : lambda : print_result('/')},
+                {'text' : 1,'command' : lambda : print_result(1)},
+                {'text' : 2,'command' : lambda : print_result(2)},
+                {'text' : 3,'command' : lambda : print_result(3)},
+                {'text' : '+','command' : lambda : print_result('+')},
+                {'text' : 0,'command' : lambda : print_result(0)},
+                {'text' : 'c','command' : lambda : print_result('c')},
+                {'text' : '.','command' : lambda : print_result('.')},
+                {'text' : '-','command' : lambda : print_result('-')},
+                ]
 
-lbl_persenteg.grid(row=0,column=0)
-btn_daytools.grid(row=1,column=0)
-btn_timer.grid(row=1,column=1)
-ent_show.grid(row=2,column=0,columnspan=4,padx=(2))
-btn_ac.grid(row=3,column=0)
-btn_plus_mines.grid(row=3,column=1)
-btn_persentege.grid(row=3,column=2)
-btn_div.grid(row=3,column=3)
-btn_number_7.grid(row=4,column=0)
-btn_number_8.grid(row=4,column=1)
-btn_number_9.grid(row=4,column=2)
-btn_multi.grid(row=4,column=3)
-btn_number_4.grid(row=5,column=0)
-btn_number_5.grid(row=5,column=1)
-btn_number_6.grid(row=5,column=2)
-btn_min.grid(row=5,column=3)
-btn_number_1.grid(row=6,column=0)
-btn_number_2.grid(row=6,column=1)
-btn_number_3.grid(row=6,column=2)
-btn_plus.grid(row=6,column=3)
-btn_number_0.grid(row=7,column=0,columnspan=2)
-btn_auditor.grid(row=7,column=2)
-btn_equ.grid(row=7,column=3)
+def calc_show (char) :
+    """return all of opration """
+    lbl_show['text'] += str(char) 
+ 
+def calc () :
+    """return calc opration"""
+    if num['op'] == '*' :
+        return num['num1'] * num['num2']
+    elif num['op'] == '/' :
+        return num['num1'] / num['num2']
+    elif num['op'] == '+' :
+        return num['num1'] + num['num2']
+    elif num['op'] == '-' :
+        return num['num1'] - num['num2']
 
+def print_result(char) :
+    current = lbl_result['text']
+    
+    if char == '.' :
+        for i  in current :
+            if i == '.' :
+                char =''
+       
+    calc_show(char)
+    if char not in ['*','/','+','-','c','='] :
+        if num['op'] == '' :#creat num1
+            lbl_result['text'] += str(char)
+        elif num['op'] != '' and num['num1'] != '' : #creat num2
+            lbl_result['text'] += str(char)
+        else : #renew calc oprator
+            lbl_result['text'] = ''
+            for i in num.keys() :
+                num[i] = ''
+            lbl_result['text'] += str(char)
+    elif char == 'c' : #clear all 
+        lbl_result['text'] = ""
+        lbl_show['text'] = ""
+        for i in num.keys() :
+                num[i] = ''
+    elif char in ['*','/','+','-']  : #enter opration 
+        if lbl_result['text'] != '' :
+            if num['num1'] != '' : # when user dont enter = and use other opration
+                num['num2'] = float(lbl_result['text'])
+                num['num1'] = calc()
+                lbl_result['text'] = ""
+                num['op'] = char
+            else : # when num1 is empty and user enter operation  
+                num['num1'] = float(lbl_result['text'])
+                num['op'] = char
+                lbl_result['text'] = ""
+    elif char == '=' : #when user enter equ =
+        if lbl_result['text'] != '':
+            num['num2'] = float(lbl_result['text'])
+            lbl_result['text'] = calc()
+            num['num1'] = ''
+            num['num2'] = ''
+            lbl_show ['text'] = ""
+lbl_show = tk.Label(window,
+                       width=45,
+                       height=2)
+lbl_show.grid(row=0,
+                column=0,
+                columnspan=4,
+                )    
+lbl_result = tk.Label(window,
+                       width=45,
+                       height=2)
+lbl_result.grid(row=1,
+                column=0,
+                columnspan=4,
+                )
 
-
-
-
-
-
+btn_equ = ttk.Button(window,
+                    text= '=',
+                    command= lambda : print_result('='),
+                    width=40
+                    )
+btn_equ.grid(row=6,column=0,columnspan=4)
 
 
-
-
+#creat buttons
+for i , char in enumerate  (key_list_dic) :
+   
+    btn = ttk.Button(window,
+                          text=char['text'],
+                          command= char['command'],
+                            )
+    btn.grid(row=i//4 + 2,column=i%4)
 
 
 
